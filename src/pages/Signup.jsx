@@ -27,7 +27,7 @@ function Signup() {
       let response;
       if (roleType === 'finder') {
         // Finder API
-        response = await fetch('http://127.0.0.1:8000/users/users/', {
+        response = await fetch('https://jsapi.sadabahaar.com/users/users/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ function Signup() {
         });
       } else {
         // Seeker (Recruiter) API
-        response = await fetch('http://127.0.0.1:8000/dummy-recruiters/dummy-recruiters/', {
+        response = await fetch('https://jsapi.sadabahaar.com/dummy-recruiters/dummy-recruiters/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

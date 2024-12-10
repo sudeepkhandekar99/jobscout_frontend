@@ -7,42 +7,25 @@ function MessagesBody() {
   const [loading, setLoading] = useState(false);
   const [resumeHistory, setResumeHistory] = useState([]);
 
-  const dummyData = {
-    recommendations: [
-      {
-        job_id: 288,
-        title: "Software Engineer Intern",
-        company_name: "Intuit",
-        description: "Hybrid work at Intuit: blending the best of in-person collaboration and the flexibility of virtual work...",
-        location: "4 locations\nMountain View, CA\nSan Diego, CA\nNew York, NY\nAtlanta, GA",
-        location_type: "Hybrid",
-        job_type: "Internship",
-        posted_at: "Sep 19",
-        apply_link: "https://jobs.intuit.com/job/-/-/27595/70124805024",
-        similarity_score: 0.8172823568919145,
-      },
-      {
-        job_id: 94,
-        title: "HUB International Internship Program Data Enablement Summer 2025",
-        company_name: "HUB",
-        description: "As the Data Enablement Intern will primarily be responsible for organizing and supporting the development of...",
-        location: "Chicago, IL",
-        location_type: null,
-        job_type: null,
-        posted_at: "Nov 19",
-        apply_link: "https://hubinternational.wd1.myworkdayjobs.com/en-US/HUBInternational/job/Chicago-IL/HUB-International-Internship-Program-Data-Enablement-Summer-2025_R0027381",
-        similarity_score: 0.8147928008313656,
-      },
-    ],
-  };
-
   useEffect(() => {
-    // Load resume history from local storage on component mount
+    // Load resume history and recommendations from local storage on component mount
     const storedHistory = JSON.parse(localStorage.getItem('resumeHistory')) || [];
+    const storedRecommendations = JSON.parse(localStorage.getItem('recommendationHistory')) || {};
     setResumeHistory(storedHistory);
+    if (storedHistory.length > 0 && storedRecommendations[storedHistory[0]]) {
+      setRecommendations(storedRecommendations[storedHistory[0]]);
+    }
   }, []);
 
-  const handleResumeUpload = (event) => {
+  const cleanDescription = (description) => {
+    return description
+      .replace(/\n/g, ' ') // Replace newlines with spaces
+      .replace(/\*|#/g, '') // Remove asterisks and hash symbols
+      .replace(/\s+/g, ' ') // Remove extra spaces
+      .trim();
+  };
+
+  const handleResumeUpload = async (event) => {
     const file = event.target.files[0];
     if (!file) {
       toast.error("Please select a PDF file to upload.");
@@ -54,13 +37,48 @@ function MessagesBody() {
     localStorage.setItem('resumeHistory', JSON.stringify(newHistory));
     setResumeHistory(newHistory);
 
-    // Simulate fetching recommendations
-    setLoading(true);
-    setTimeout(() => {
-      setRecommendations(dummyData.recommendations);
+    const formData = new FormData();
+    formData.append('resume', file);
+
+    try {
+      setLoading(true);
+      const response = await fetch('https://jsapi.sadabahaar.com/recommend-job', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch recommendations');
+      }
+
+      const data = await response.json();
+      const cleanedRecommendations = data.recommendations.map((rec) => ({
+        ...rec,
+        description: cleanDescription(rec.description),
+      }));
+      setRecommendations(cleanedRecommendations);
+
+      // Save recommendations to local storage
+      const storedRecommendations = JSON.parse(localStorage.getItem('recommendationHistory')) || {};
+      storedRecommendations[file.name] = cleanedRecommendations;
+      localStorage.setItem('recommendationHistory', JSON.stringify(storedRecommendations));
+
       toast.success("Recommendations fetched successfully!");
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred while fetching recommendations.");
+    } finally {
       setLoading(false);
-    }, 1000);
+    }
+  };
+
+  const handleHistoryClick = (fileName) => {
+    const storedRecommendations = JSON.parse(localStorage.getItem('recommendationHistory')) || {};
+    if (storedRecommendations[fileName]) {
+      setRecommendations(storedRecommendations[fileName]);
+    } else {
+      toast.error("No recommendations found for this file.");
+    }
   };
 
   return (
@@ -126,7 +144,8 @@ function MessagesBody() {
             {resumeHistory.map((fileName, index) => (
               <li
                 key={index}
-                className="p-2 bg-gray-100 rounded-md text-gray-700 font-medium"
+                className="p-2 bg-gray-100 rounded-md text-gray-700 font-medium cursor-pointer hover:bg-gray-200"
+                onClick={() => handleHistoryClick(fileName)}
               >
                 {fileName}
               </li>

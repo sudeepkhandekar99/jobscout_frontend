@@ -32,7 +32,7 @@ function JobListing() {
 
   const fetchJobs = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/job-listings/job-listings/detailed', {
+      const response = await fetch('https://jsapi.sadabahaar.com/job-listings/job-listings/detailed', {
         headers: { Accept: 'application/json' },
       });
 
@@ -58,7 +58,7 @@ function JobListing() {
   const handleCreateJob = async () => {
     try {
       // API call to create a job
-      const response = await fetch('http://127.0.0.1:8000/job-listings/job-listings/', {
+      const response = await fetch('https://jsapi.sadabahaar.com/job-listings/job-listings/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -88,7 +88,7 @@ function JobListing() {
       localStorage.setItem('job_listing_id', jobListingId);
 
       // API call to create job details
-      const detailsResponse = await fetch('http://127.0.0.1:8000/job-details/job-details/', {
+      const detailsResponse = await fetch('https://jsapi.sadabahaar.com/job-details/job-details/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

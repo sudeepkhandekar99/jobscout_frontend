@@ -22,7 +22,7 @@ function Onboarding03() {
     formData.append('file', file);
   
     try {
-      const response = await fetch(`http://127.0.0.1:8000/users/users/upload-image/?folder=${folder}`, {
+      const response = await fetch(`https://jsapi.sadabahaar.com/users/users/upload-image/?folder=${folder}`, {
         method: 'POST',
         body: formData,
         headers: {

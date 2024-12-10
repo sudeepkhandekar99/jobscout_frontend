@@ -33,7 +33,7 @@ function Onboarding08() {
         logo_link: orgLogoLink,
       };
 
-      const orgResponse = await fetch('http://127.0.0.1:8000/organizations/organizations/', {
+      const orgResponse = await fetch('https://jsapi.sadabahaar.com/organizations/organizations/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ function Onboarding08() {
         organization_id: orgData.id,
       };
 
-      const recruiterResponse = await fetch('http://127.0.0.1:8000/recruiters/recruiters/', {
+      const recruiterResponse = await fetch('https://jsapi.sadabahaar.com/recruiters/recruiters/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

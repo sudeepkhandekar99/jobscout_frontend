@@ -19,7 +19,7 @@ function ProfileBody() {
       }
 
       try {
-        const response = await fetch(`http://127.0.0.1:8000/profiles/profiles/${userId}`, {
+        const response = await fetch(`https://jsapi.sadabahaar.com/profiles/profiles/${userId}`, {
           headers: { accept: 'application/json' },
         });
 
@@ -47,7 +47,7 @@ function ProfileBody() {
       }
 
       try {
-        const response = await fetch(`http://127.0.0.1:8000/users/users/${userId}`, {
+        const response = await fetch(`https://jsapi.sadabahaar.com/users/users/${userId}`, {
           headers: { accept: 'application/json' },
         });
 

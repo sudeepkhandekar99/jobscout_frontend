@@ -31,7 +31,7 @@ function Onboarding04() {
       };
 
       // API call
-      const response = await fetch('http://127.0.0.1:8000/profiles/profiles/', {
+      const response = await fetch('https://jsapi.sadabahaar.com/profiles/profiles/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

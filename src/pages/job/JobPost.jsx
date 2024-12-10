@@ -20,7 +20,7 @@ function JobPost() {
 
   const fetchJobDetails = async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/job-details/job-details/${jobListingId}`, {
+      const response = await fetch(`https://jsapi.sadabahaar.com/job-details/job-details/${jobListingId}`, {
         headers: { Accept: 'application/json' },
       });
       if (!response.ok) throw new Error('Failed to fetch job details');
@@ -33,7 +33,7 @@ function JobPost() {
 
   const fetchCompanyInfo = async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/organizations/organizations/${organizationId}`, {
+      const response = await fetch(`https://jsapi.sadabahaar.com/organizations/organizations/${organizationId}`, {
         headers: { Accept: 'application/json' },
       });
       if (!response.ok) throw new Error('Failed to fetch company info');
@@ -46,7 +46,7 @@ function JobPost() {
 
   const fetchJobListing = async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/job-listings/job-listings/${jobListingId}/detailed`, {
+      const response = await fetch(`https://jsapi.sadabahaar.com/job-listings/job-listings/${jobListingId}/detailed`, {
         headers: { Accept: 'application/json' },
       });
       if (!response.ok) throw new Error('Failed to fetch job listing');

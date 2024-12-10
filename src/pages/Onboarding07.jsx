@@ -17,7 +17,7 @@ function Onboarding07() {
     formData.append('file', file);
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/users/users/upload-image/?folder=organization', {
+      const response = await fetch('https://jsapi.sadabahaar.com/users/users/upload-image/?folder=organization', {
         method: 'POST',
         body: formData,
         headers: {

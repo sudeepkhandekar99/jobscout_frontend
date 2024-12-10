@@ -20,8 +20,8 @@ function Signin() {
 
     // Determine the API endpoint based on the "isOrganization" checkbox
     const endpoint = isOrganization
-      ? 'http://127.0.0.1:8000/auth/auth/sign-in-org'
-      : 'http://127.0.0.1:8000/auth/auth/sign-in';
+      ? 'https://jsapi.sadabahaar.com/auth/auth/sign-in-org'
+      : 'https://jsapi.sadabahaar.com/auth/auth/sign-in';
 
     try {
       const response = await fetch(endpoint, {
